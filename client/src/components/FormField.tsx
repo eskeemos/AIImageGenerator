@@ -21,7 +21,7 @@ const FormField: React.FC<Props> = ({
           {labelName}
         </label>
         {isSupriseMe && (
-          <button onClick={handleSupriseMe} className='font-semibold text-xs bg-violet-500 py-1 px-2 rounded-md'>Suprise me</button>
+          <button type='button' onClick={handleSupriseMe} className='font-semibold text-xs bg-violet-500 py-1 px-2 rounded-md'>Suprise me</button>
         )}
       </div>
       <input type={type} id={name} name={name} placeholder={placeholder} value={value} onChange={handleChange} required 

@@ -16,8 +16,30 @@ const CreatePost: React.FC<Props> = ({ }) => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    if (form.prompt && form.photo) {
+      setLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({ ...form })
+        })
+        await response.json();
+        navigate("/")
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please enter a prompt and generate an image");
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +55,31 @@ const CreatePost: React.FC<Props> = ({ }) => {
     })
   }
 
-  const generateImg = () => {
+  const generateImg = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: form.prompt,
+          }),
+        });
 
-  }
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (err) {
+        alert(err);
+      } finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert('Please provide proper prompt');
+    }
+  };
 
   return (
     <section className='max-w-7xl mx-auto'>
@@ -72,7 +116,7 @@ const CreatePost: React.FC<Props> = ({ }) => {
           </div>
         </div>
         <div className="mt-5 flex gap-5">
-          <button className='font-semibold text-xs bg-violet-500 py-1 px-2 rounded-md w-full md:w-96' onClick={generateImg}>
+          <button type='button' className='font-semibold text-xs bg-violet-500 py-1 px-2 rounded-md w-full md:w-96' onClick={generateImg}>
             {generatingImg ? 'Generating...' : 'Generate'}
           </button>
         </div>
