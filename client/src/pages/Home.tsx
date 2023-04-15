@@ -22,7 +22,7 @@ const RenderCards = ({ data, title }: RenderCardsProps) => {
 const Home: React.FC<Props> = ({ }) => {
   const [laoding, setLaoding] = useState(false)
   const [posts, setPosts] = useState([null])
-  const [searchText, setSearchText] = useState("as")
+  const [searchText, setSearchText] = useState("")
 
   return (
     <section className='max-w-7xl mx-auto'>
@@ -46,7 +46,9 @@ const Home: React.FC<Props> = ({ }) => {
               </h2>
             )}
             <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
-
+              {searchText ? (<RenderCards data={[]} title="No Search Results Found" />) : (
+                <RenderCards data={[]} title="No Posts Found" />
+              )}
             </div>
           </div>
         )}
