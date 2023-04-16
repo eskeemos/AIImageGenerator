@@ -16,8 +16,8 @@ const FormField: React.FC<Props> = ({
 }) => {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-2">
-        <label htmlFor={name} className='block text-sm font-medium'>
+      <div className="flex items-center gap-2 mb-2 pl-5">
+        <label htmlFor={name} className='block text-xs lg:text-lg font-medium'>
           {labelName}
         </label>
         {isSupriseMe && (
@@ -25,7 +25,7 @@ const FormField: React.FC<Props> = ({
         )}
       </div>
       <input type={type} id={name} name={name} placeholder={placeholder} value={value} onChange={handleChange} required 
-        className='bg-slate-200 border border-violet-500 rounded-md text-sm focus:ring-violet-700 focus:ring-1 outline-none p-2 w-full md:w-96' />
+        className='bg-slate-200 border border-violet-500 rounded-md text-xs lg:text-lg focus:ring-violet-700 focus:ring-1 outline-none p-3 w-full' />
     </div>
   )
 }
